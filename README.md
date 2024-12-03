@@ -73,6 +73,7 @@ cd sys_metric_pipeline
 ## Step 2: Install Poetry 🎵
 
 Use the Makefile to download Poetry for dependency management:
+
 ``bash
 
 make poetry-download
@@ -80,6 +81,7 @@ make poetry-download
 ## Step 3: Set Up a Virtual Environment 🔧
 
 Activate the .venv and install dependencies:
+
 ``bash
 
 poetry shell
@@ -87,6 +89,7 @@ poetry install --with dev
 
 ## Step 4: Build Docker Image 🐳
 Build the container for deployment:
+
 ``bash
 
 docker build -t sys-metric-pipeline .
@@ -97,6 +100,7 @@ docker build -t sys-metric-pipeline .
 
 ### For Phase 1 (Graphical Dashboard)
 1. **Start the API Server**:
+
 ``bash
 
 flask run --host=0.0.0.0 --port=5000
@@ -112,6 +116,7 @@ flask run --host=0.0.0.0 --port=5000
 ---
 
 ### Pipeline Workflow 🔄
+
 ``markdown
 
 1. **Data Collection**:
@@ -130,21 +135,25 @@ flask run --host=0.0.0.0 --port=5000
 The project uses a **Makefile** to simplify common tasks:
 
 - **Download Poetry**:
+
 ``bash
 
 make poetry-download
 
 - **Install Dependencies**:
+
 ``bash
 
 make poetry-install-deps
 
 - **Run Tests**:
+
 ``bash
 
 make check-all
 
 - **Run Linters**:
+
 ``bash
 
   - Black: make black_check
