@@ -65,24 +65,24 @@ The system collects and processes **real-time metrics** (e.g., CPU usage, memory
 ## Installation 🛠️
 
 ### Step 1: Clone the Repository
-```bash
+``bash
 git clone https://github.com/KedarSki/sys_metric_pipeline.git
 cd sys_metric_pipeline
 
-Step 2: Install Poetry 🎵
+### Step 2: Install Poetry 🎵
 Use the Makefile to download Poetry for dependency management:
-```bash
+``bash
 make poetry-download
 
-Step 3: Set Up a Virtual Environment 🔧
+## Step 3: Set Up a Virtual Environment 🔧
 Activate the .venv and install dependencies:
-```bash
+``bash
 poetry shell
 poetry install --with dev
 
-Step 4: Build Docker Image 🐳
+## Step 4: Build Docker Image 🐳
 Build the container for deployment:
-```bash
+``bash
 docker build -t sys-metric-pipeline .
 
 ---
@@ -91,12 +91,12 @@ docker build -t sys-metric-pipeline .
 
 ### For Phase 1 (Graphical Dashboard)
 1. **Start the API Server**:
-   ```bash
+   ``bash
    flask run --host=0.0.0.0 --port=5000
 2. Access the Dashboard: Open your browser and navigate to:
 	http://<your-server-ip>:5000
 
-### **For Phase 2 (Real-Time Data Pipeline)**
+### For Phase 2 (Real-Time Data Pipeline)
 1. **User Legal Agreement**: Users must run the provided script and accept the agreement. The system securely stores their consent in the database.
 2. **Collect Metrics**: Metrics are automatically collected and transmitted in real-time.
 3. **Automated Cleanup**: Data older than 24 hours is deleted at midnight to optimize VPS resources.
@@ -105,7 +105,7 @@ docker build -t sys-metric-pipeline .
 ---
 
 ### Pipeline Workflow 🔄
-```markdown
+``markdown
 
 1. **Data Collection**:
    - **Phase 1**: Collects metrics from log files.
@@ -123,27 +123,25 @@ docker build -t sys-metric-pipeline .
 The project uses a **Makefile** to simplify common tasks:
 
 - **Download Poetry**:
-  ```bash
+  ``bash
   make poetry-download
 
 - **Install Dependencies**:
-  ```bash
+  ``bash
   make poetry-install-deps
 
 - **Run Tests**:
-  ```bash
+  ``bash
   make check-all
 
 - **Run Linters**:
-  ```bash
+  ``bash
   - Black: make black_check
   - Pylint: make pylint
   - MyPy: make mypy
 
 ---
 
-### Contributing 🤝
-```markdown
 ## Contributing 🤝
 
 Contributions are welcome! To contribute:
