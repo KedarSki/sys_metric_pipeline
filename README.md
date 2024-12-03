@@ -65,7 +65,7 @@ The system collects and processes **real-time metrics** (e.g., CPU usage, memory
 ## Installation 🛠️
 
 ## Step 1: Clone the Repository
-``bash
+```bash
 
 git clone https://github.com/KedarSki/sys_metric_pipeline.git
 cd sys_metric_pipeline
@@ -73,7 +73,7 @@ cd sys_metric_pipeline
 ## Step 2: Install Poetry 🎵
 
 Use the Makefile to download Poetry for dependency management:
-``bash
+```bash
 
 make poetry-download
 
@@ -96,7 +96,8 @@ docker build -t sys-metric-pipeline .
 
 ### For Phase 1 (Graphical Dashboard)
 1. **Start the API Server**:
-   ``bash   flask run --host=0.0.0.0 --port=5000
+```bash
+flask run --host=0.0.0.0 --port=5000
 2. Access the Dashboard: Open your browser and navigate to:
 	http://<your-server-ip>:5000
 
@@ -127,21 +128,22 @@ docker build -t sys-metric-pipeline .
 The project uses a **Makefile** to simplify common tasks:
 
 - **Download Poetry**:
-  ```bash
-  
-  make poetry-download
+```bash
+
+make poetry-download
 
 - **Install Dependencies**:
-  ```bash
-  
-  make poetry-install-deps
+```bash
+
+make poetry-install-deps
 
 - **Run Tests**:
-  ```bash
-  make check-all
+```bash
+
+make check-all
 
 - **Run Linters**:
-  ```bash
+```bash
 
   - Black: make black_check
   - Pylint: make pylint
