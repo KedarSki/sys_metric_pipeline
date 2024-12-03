@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Virtual environment directories
+.venv/
+env/
+venv/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Logs and temp files
+*.log
+*.tmp
+
+# System-specific files
+.DS_Store
+*.swp
+*.swo
+*.~*
+
+# IDE-specific files (optional, depending on tools used)
+.vscode/
+.idea/
+
+# Test and coverage reports
+.coverage
+*.cover
+*.py,cover
+.hypothesis/
+.tox/
