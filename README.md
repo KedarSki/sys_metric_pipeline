@@ -65,7 +65,7 @@ The system collects and processes **real-time metrics** (e.g., CPU usage, memory
 ## Installation 🛠️
 
 ## Step 1: Clone the Repository
-``bash
+```bash
 git clone https://github.com/KedarSki/sys_metric_pipeline.git
 cd sys_metric_pipeline
 
