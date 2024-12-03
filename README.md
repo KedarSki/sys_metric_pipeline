@@ -64,12 +64,12 @@ The system collects and processes **real-time metrics** (e.g., CPU usage, memory
 
 ## Installation 🛠️
 
-### Step 1: Clone the Repository
+## Step 1: Clone the Repository
 ```bash
 git clone https://github.com/KedarSki/sys_metric_pipeline.git
 cd sys_metric_pipeline
 
-Step 2: Install Poetry 🎵
+## Step 2: Install Poetry 🎵
 Use the Makefile to download Poetry for dependency management:
 ```bash
 make poetry-download
