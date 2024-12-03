@@ -65,7 +65,8 @@ The system collects and processes **real-time metrics** (e.g., CPU usage, memory
 ## Installation 🛠️
 
 ## Step 1: Clone the Repository
-```bash
+``bash
+
 git clone https://github.com/KedarSki/sys_metric_pipeline.git
 cd sys_metric_pipeline
 
@@ -73,17 +74,20 @@ cd sys_metric_pipeline
 
 Use the Makefile to download Poetry for dependency management:
 ``bash
+
 make poetry-download
 
 ## Step 3: Set Up a Virtual Environment 🔧
 Activate the .venv and install dependencies:
-``bash
+```bash
+
 poetry shell
 poetry install --with dev
 
 ## Step 4: Build Docker Image 🐳
 Build the container for deployment:
-``bash
+```bash
+
 docker build -t sys-metric-pipeline .
 
 ---
@@ -105,7 +109,7 @@ docker build -t sys-metric-pipeline .
 ---
 
 ### Pipeline Workflow 🔄
-``markdown
+```markdown
 
 1. **Data Collection**:
    - **Phase 1**: Collects metrics from log files.
@@ -123,19 +127,22 @@ docker build -t sys-metric-pipeline .
 The project uses a **Makefile** to simplify common tasks:
 
 - **Download Poetry**:
-  ``bash
+  ```bash
+  
   make poetry-download
 
 - **Install Dependencies**:
-  ``bash
+  ```bash
+  
   make poetry-install-deps
 
 - **Run Tests**:
-  ``bash
+  ```bash
   make check-all
 
 - **Run Linters**:
-  ``bash
+  ```bash
+
   - Black: make black_check
   - Pylint: make pylint
   - MyPy: make mypy
