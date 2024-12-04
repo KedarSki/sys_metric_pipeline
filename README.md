@@ -44,7 +44,7 @@ The system collects and processes **real-time metrics** (e.g., CPU usage, memory
 ---
 
 ## Technologies Used 🛠️
-- **Programming Language**: Python 3.10 🐍
+- **Programming Language**: Python 3.12 🐍
 - **Framework**: Flask for API endpoints and consent handling 🌐
 - **Database**: kdb+/q for efficient data querying 🗄️
 - **Containerization**: Docker 🐳
@@ -56,7 +56,7 @@ The system collects and processes **real-time metrics** (e.g., CPU usage, memory
 
 ## System Requirements 📦
 - **Operating System**: WSL2 (Ubuntu 22.04 or higher)
-- **Python Version**: 3.10 or above
+- **Python Version**: 3.12 or above
 - **Docker**: Latest version
 - **Make**: To simplify project setup and management
 
@@ -105,7 +105,7 @@ docker build -t sys-metric-pipeline .
 
 flask run --host=0.0.0.0 --port=5000
 2. Access the Dashboard: Open your browser and navigate to:
-	http://<your-server-ip>:5000
+http://<your-server-ip>:5000
 
 ### For Phase 2 (Real-Time Data Pipeline)
 1. **User Legal Agreement**: Users must run the provided script and accept the agreement. The system securely stores their consent in the database.
