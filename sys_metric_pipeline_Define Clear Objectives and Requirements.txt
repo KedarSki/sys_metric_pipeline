@@ -1,0 +1,60 @@
+1. Define the Purpose:
+	- When user will enter website https://...ovh.com the real time metric will be provided in diagram and numeric after he/she will agree to send it through. 
+	Before that real time streaming data from Prometheus will be shown as a example. 
+
+	- Metrics: RAM usage, Disc, CPU usage
+
+	- Real time data collection straight from user to database then display from database to front end using diagram like prometheus does. 
+
+2. Identify Data Sources
+
+	- I will collect example real time data metrics from "Prometheus" and "Open Telemetry". 
+	User collection data will go from user's computer or Virtual Machine, depends from where he will log in to the page: https://...ovh.com
+
+	- Tools and Libraries: psutil for Python, FastApi (instead of flask) for Python
+
+3. Determine Storage Solutions:
+
+	- Data will be collected on KDB+/q database. They will be stored in three separated tables. Each table for each metric. Tables: RAM, DISC, CPU they all will be stored as a relation databased with common key instance_id which will be unique key for each user granting by cookies policy. Database will be cleaned at midnight Warsaw time so i will not overload my database. 
+
+	- Data volume will be dependend on user and how long he will stay on the page. I will have to create time limiter for each user to make sure one user will not kill my database or data storage limiter for each instance_id because i want user to have access to historical data in the same day before database will be cleaned. User will have to mark policy and agreement to share system data with my project and be informed abour everything. 
+
+4. Plan Data Processing and Analysis:
+
+	- Once user will agree and press e.g "Proceed" button it will start passing data from he's current machine to my kdb+/q database throught Fast Api and take same data from database to live shown diagrame by fast api. 
+
+	- If user will still have some chance to log he's data like couple of times a day for shorter time of period. I can count avarage data for each metric and median. That will help user to analyze data better. 
+
+5. Design Visualization and Reporting:
+
+	- I will visualize live user metrics and prometheus and open telemetry metrics on diagram. Computed values like median and avarage for each metric will be displayed somewhere around diagram.
+
+	- Tools for visualization Tableau or Power BI
+
+6. Establish Performance and Scalability Requirements:
+
+	- Better than Task Manager on windows and Top (or any other) on Linux
+
+	- Use KDB+/q database to increase efficiency. May be i can replace python data engineering part with q language
+
+7. Consider Security and Compliance:
+
+	- Connect diagram through Fast Api not directed to DataBase. May be Hashcode the instance_id created on the cookies level but they won't be visible even for me. SSL is required as http protocol needs to be secured. 
+
+	- Create data protection policy. User by clicking proceed will allow pass the data to kdb database. All open source software will be streamed in real time according to their policy without placing any data from them to kdb database
+
+8. Set Milestones and Timeline:
+
+	- Create database - Tables, fields joins
+
+	- Place prepered files to database
+
+	- Create Fast api will sending data from database to endpoint
+
+	- Create front end part with digrams
+
+	- Place everything and deploy on ovh and publish
+
+ 	I think 8 hours on each of the above will be suitable. 
+
+ 	
