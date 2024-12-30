@@ -12,15 +12,18 @@ poetry-download:
 poetry-remove:
 	curl -sSL https://install.python-poetry.org | $(PYTHON) - --uninstall
 
-
-.PHONY: install-deps-with-dev
+.PHONY: poetry-install-deps
 poetry-install-deps:
 	poetry install --with dev
 
-# Run Flask App
-.PHONY: flask-run
-flask-run:
-	flask run --host=0.0.0.0 --port=5000
+# Run Virtual Environment
+.PHONY: fastapi-run
+fastapi-run:
+	uvicorn src.api.fast_api:app --host=0.0.0.0 --port=8000 --reload
+
+# .PHONY: venv-run
+# venv-run:
+# 	source .venv/Scripts/activate
 
 #* Linting
 .PHONY: test
@@ -39,10 +42,11 @@ black_check:
 pylint:
 	poetry run pylint -j 4 src/
 
+.PHONY: check-all
 check-all: black_check pylint mypy test
 
 # Docker container
-.PHONE: docker-Build
+.PHONY: docker-build
 docker-build:
 	docker build -t sys-metric-pipeline .
 

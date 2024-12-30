@@ -6,7 +6,7 @@ authors = ["Radoslaw Zamojski <radoslaw.zamojski@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
-flask = "^2.3.3"
+fastapi = "^0.112.2"
 click = "^8.1.7"
 pandas = "^2.2.3"
 black = "^24.8.0"
