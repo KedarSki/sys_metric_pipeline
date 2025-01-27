@@ -1,13 +1,13 @@
 ram: ("SIF"; enlist csv) 0: `:/mnt/c/git/sys_metric_pipeline/src/data/ram.csv
 
-`:data/ram set ram
+`:/mnt/c/git/sys_metric_pipeline/src/database/kdb/q_tables/ram set ram
 
 disk: ("SSFF"; enlist csv) 0: `:/mnt/c/git/sys_metric_pipeline/src/data/disk.csv
 
-`:data/disk set disk
+`:/mnt/c/git/sys_metric_pipeline/src/database/kdb/q_tables/disk set disk
 
 cpu: ("SISFF"; enlist csv) 0: `:/mnt/c/git/sys_metric_pipeline/src/data/cpu.csv
 
-`:data/cpu set cpu
+`:/mnt/c/git/sys_metric_pipeline/src/database/kdb/q_tables/cpu set cpu
 
 -1 "Data successfully loaded into tables and saved.";
