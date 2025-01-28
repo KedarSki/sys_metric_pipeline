@@ -2,6 +2,7 @@ from fastapi import FastAPI, HTTPException, Request
 from fastapi.responses import FileResponse, HTMLResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
+import json as json
 import pykx as kx
 
 class MetricData(BaseModel):
@@ -12,7 +13,7 @@ class MetricData(BaseModel):
     ram_usage: int
     disk_device: str
     disk_usage: float
-    date: float
+    timestamp: float
 
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="src/app/static"), name="static")
@@ -24,9 +25,11 @@ except Exception as e:
 
 conn(
     """
-    cpu:([] instance_id:`symbol$(); cpu_core:`int$(); cpu_mode:`symbol$(); cpu_time_usage:`float$(); date:`float$());
-    disk:([] instance_id:`symbol$(); disk_device:`symbol$(); disk_usage:`float$(); date:`float$());
-    ram:([] instance_id:`symbol$(); ram_usage:`int$(); date:`float$());
+    cpu:([] instance_id:`symbol$(); cpu_core:`int$(); cpu_mode:`symbol$(); cpu_time_usage:`float$(); timestamp:`float$());
+    disk:([] instance_id:`symbol$(); disk_device:`symbol$(); disk_usage:`float$(); timestamp:`float$());
+    ram:([] instance_id:`symbol$(); ram_usage:`int$(); timestamp:`float$());
+    .u.upd:{[table; data] table insert data}
+    
     """
 )
 
@@ -39,7 +42,7 @@ async def receive_metrics(metric_data: MetricData):
                 "cpu_core": [metric_data.cpu_core],
                 "cpu_mode": [kx.SymbolAtom(metric_data.cpu_mode)],
                 "cpu_time_usage": [metric_data.cpu_time_usage],
-                "date": [metric_data.date]
+                "timestamp": [metric_data.timestamp]
             }
         )
         conn('.u.upd', 'cpu', cpu_list)
@@ -49,7 +52,7 @@ async def receive_metrics(metric_data: MetricData):
                 "instance_id": [kx.SymbolAtom(metric_data.instance_id)],
                 "disk_device": [kx.SymbolAtom(metric_data.disk_device)],
                 "disk_usage": [metric_data.disk_usage],
-                "date": [metric_data.date]
+                "timestamp": [metric_data.timestamp]
             }
         )
         conn('.u.upd', 'disk', disk_list)
@@ -58,11 +61,11 @@ async def receive_metrics(metric_data: MetricData):
             data={
                 "instance_id": [kx.SymbolAtom(metric_data.instance_id)],
                 "ram_usage": [metric_data.ram_usage],
-                "date": [metric_data.date]
+                "timestamp": [metric_data.timestamp]
             }
         )
         conn('.u.upd', 'ram', ram_list)
-
+        print(cpu_list,ram_list,disk_list)
         return {"status": "success", "message": "Data stored successfully"}
 
     except Exception as e:
@@ -70,7 +73,32 @@ async def receive_metrics(metric_data: MetricData):
 
 @app.get("/metrics")
 async def provide_metrics():
-    pass
-@app.get("/", response_class=HTMLResponse)
-async def home():
-    return FileResponse("src/app/templates/index.html")
+    try:
+        # Retrieve data from KDB+
+        conn(
+            """    
+            jsonstr: "J" sv string each cpu
+            jsonarr: "[" , (jsonstr sv ",") , "]" 
+            0:("/mnt/c/git/sys_metric_pipeline/src/data/cpu.json") enlist jsonarr;
+
+            """
+        )
+        conn(
+            """    
+            jsonstr: "J" sv string each ram
+            jsonarr: "[" , (jsonstr sv ",") , "]" 
+            0:("/mnt/c/git/sys_metric_pipeline/src/data/ram.json") enlist jsonarr;
+
+            """
+        )
+        conn(
+            """    
+            jsonstr: "J" sv string each disk
+            jsonarr: "[" , (jsonstr sv ",") , "]" 
+            0:("/mnt/c/git/sys_metric_pipeline/src/data/disk.json") enlist jsonarr;
+
+            """
+        )
+    except Exception as e:
+        print(f"Error providing data: {e}")
+        raise HTTPException(status_code=500, detail=f"Error providing data: {e}")
