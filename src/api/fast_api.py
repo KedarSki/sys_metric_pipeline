@@ -1,8 +1,13 @@
-from fastapi import FastAPI, HTTPException, Query, Response
+import os
+from fastapi import FastAPI, HTTPException, Query
 from fastapi.staticfiles import StaticFiles
-from pydantic import BaseModel
+from pydantic import BaseModel, field_validator
+from dotenv import load_dotenv
+import re
 import json
+import logging
 import pykx as kx
+
 
 
 class MetricData(BaseModel):
@@ -19,8 +24,16 @@ class MetricData(BaseModel):
 app = FastAPI()
 app.mount("/static", StaticFiles(directory="src/app/static"), name="static")
 
+load_dotenv()
+ip_connection = os.getenv("DATABASE_IP")
+port_connection = int(os.getenv("DATABASE_PORT", 5000))
+
+
+if not ip_connection or not port_connection:
+    raise ValueError("DATABASE_IP and DATABASE_PORT must be set!")
+
 try:
-    conn = kx.QConnection(host="172.22.170.205", port=5000)
+    conn = kx.QConnection(host=ip_connection, port=port_connection)
 except Exception as e:
     print(f"Exception error: {e}")
 
@@ -71,6 +84,7 @@ async def receive_metrics(metric_data: MetricData):
         return {"status": "success", "message": "Data stored successfully"}
 
     except Exception as e:
+        logging.error(str(e))
         raise HTTPException(status_code=500, detail=f"Error storing data: {e}")
 
 
@@ -78,7 +92,10 @@ async def receive_metrics(metric_data: MetricData):
 async def provide_metrics(instance_id: str = Query(..., description="Filter by instance ID")):
 
     try:
-        formatted_instance_id = instance_id.strip().replace('"', "")
+        formatted_instance_id = instance_id.strip()
+        if formatted_instance_id == "":
+            raise HTTPException(status_code=400, detail="Instance ID cannot be empty")
+
         cpu_data = conn(f"cpu_json:.j.j select from cpu where instance_id=`{formatted_instance_id}; cpu_json")
         disk_data = conn(f"disk_json:.j.j select from disk where instance_id=`{formatted_instance_id}; disk_json")
         ram_data = conn(f"ram_json:.j.j select from ram where instance_id=`{formatted_instance_id}; ram_json")
@@ -86,8 +103,9 @@ async def provide_metrics(instance_id: str = Query(..., description="Filter by i
         return {
             "cpu": json.loads(str(cpu_data)),
             "disk": json.loads(str(disk_data)),
-            "ram": json.loads(str(ram_data)),
+            "ram": json.loads(str(ram_data))
         }
 
     except Exception as e:
+        logging.error(str(e))
         raise HTTPException(status_code=500, detail=f"Error retrieving data: {str(e)}")
