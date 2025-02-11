@@ -89,16 +89,16 @@ async def receive_metrics(metric_data: MetricData):
 
 
 @app.get("/metrics")
-async def provide_metrics(instance_id: str = Query(..., description="Filter by instance ID")):
+async def provide_metrics(instance_id: str = Query(description="Filter by instance ID")):
 
     try:
-        formatted_instance_id = instance_id.strip()
-        if formatted_instance_id == "":
+        instance_id = instance_id.strip()
+        if instance_id is None or instance_id.strip() == '""' or instance_id == "''":
             raise HTTPException(status_code=400, detail="Instance ID cannot be empty")
 
-        cpu_data = conn(f"cpu_json:.j.j select from cpu where instance_id=`{formatted_instance_id}; cpu_json")
-        disk_data = conn(f"disk_json:.j.j select from disk where instance_id=`{formatted_instance_id}; disk_json")
-        ram_data = conn(f"ram_json:.j.j select from ram where instance_id=`{formatted_instance_id}; ram_json")
+        cpu_data = conn(f"cpu_json:.j.j select from cpu where instance_id=`{instance_id}; cpu_json")
+        disk_data = conn(f"disk_json:.j.j select from disk where instance_id=`{instance_id}; disk_json")
+        ram_data = conn(f"ram_json:.j.j select from ram where instance_id=`{instance_id}; ram_json")
 
         return {
             "cpu": json.loads(str(cpu_data)),

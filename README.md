@@ -6,7 +6,7 @@
 ![Docker](https://img.shields.io/badge/Docker-🐳-brightblue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
-A Python-based system metrics pipeline designed to collect, analyze, and visualize real-time system metrics for open-source servers. This project showcases **data engineering**, **Linux proficiency**, and **cloud deployment skills**, tailored for Canonical's focus on open-source technologies.
+A Python-based system metrics pipeline designed to collect, analyze, and visualize real-time system metrics for open-source servers. This project showcases **data engineering**, **Linux proficiency**, and **cloud deployment skills**, focus on open-source technologies.
 
 ---
 
