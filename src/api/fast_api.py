@@ -1,9 +1,10 @@
 import os
-from fastapi import FastAPI, HTTPException, Query
+from fastapi import FastAPI, HTTPException, Query, WebSocket, Request
+from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
+from fastapi.responses import HTMLResponse
 from pydantic import BaseModel, field_validator
 from dotenv import load_dotenv
-import re
 import json
 import logging
 import pykx as kx
@@ -47,6 +48,11 @@ conn(
     """
 )
 
+templates = Jinja2Templates(directory="src/app/templates")
+
+@app.get("/", response_class=HTMLResponse)
+async def read_root(request: Request):
+    return templates.TemplateResponse("index.html", {"request": request})
 
 @app.post("/metrics")
 async def receive_metrics(metric_data: MetricData):
@@ -109,3 +115,10 @@ async def provide_metrics(instance_id: str = Query(description="Filter by instan
     except Exception as e:
         logging.error(str(e))
         raise HTTPException(status_code=500, detail=f"Error retrieving data: {str(e)}")
+
+@app.websocket("/websocket")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    while True:
+        data = await websocket.receive_json()
+        await websocket.send_json({data})
